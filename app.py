@@ -1,7 +1,7 @@
 import streamlit as st
 import forallpeople as si
 import plotly.graph_objects as go
-from handcalcs.decorator import handcalc
+from PIL import Image
 
 import calculations as calc
 
@@ -11,9 +11,7 @@ si.environment('structural')
 
 st.sidebar.title('Common parameters')
 
-# Checkbox to enable calculation and graph display
-calculate_graph = st.sidebar.checkbox('Display Comparison Graph (takes few seconds)', value=False)
-st.sidebar.write('')
+
 
 # CONFIGURATION
 st.sidebar.subheader('Configuration of the connection')
@@ -43,14 +41,38 @@ st.sidebar.write(f"Resulting factor K' is: {K}")
 
 # TITLES
 st.title('TIMBER DESIGN')
-st.subheader('Bolted connection design according to CSA O86-14')
-st.write('(for now limited to 2 wooden members)')
+st.subheader('Bolted connection design according to CSA O86-19')
+st.write(
+    '<p style="color: red;">Note : <strong>for now limited to 2 wooden members connected with bolts, only yielding resistance</strong></p>',
+    unsafe_allow_html=True
+)
 
 
 # IMAGES
 with st.container(border=True):
-    st.write("********   IMAGES TO ADD HERE   **********")
+
+    col01, col02 = st.columns(2)
     
+    with col01:
+        # Resize picture
+        img = Image.open('images/figure_bolt-2 members.png')
+        img = img.resize((200, int(200 * img.height / img.width)))  # Ajustez la largeur à 600 pixels
+
+        # Display resized picture
+        st.image(img, caption='2 wood members connected with bolts')
+    
+    with col02:
+        # Resize picture
+        img = Image.open('images/figure_bolt-2 members.png')
+        img = img.resize((200, int(200 * img.height / img.width)))  # Ajustez la largeur à 600 pixels
+
+        # Display resized picture
+        st.image(img, caption='2 wood members connected with bolts')
+    
+
+# CHECKBOX TO ENABLE CALCULATION AND DISPLAY OF COMPARISONS GRAPH
+calculate_graph = st.checkbox('Display Comparison Graph (takes few seconds)', value=False)
+st.sidebar.write('')
 
 # SUM-UP
 with st.container(border=True):
